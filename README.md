@@ -39,7 +39,7 @@ npx vercel login
 export VERCEL_TOKEN="your_vercel_token_here"
 ```
 
-### 2. Deploy Project
+### 2. Deploy Single Project
 
 ```bash
 # Clone repository
@@ -52,6 +52,28 @@ npx vercel deploy --prod
 # Atau deploy non-interaktif di CI/CD / headless server (menggunakan token):
 npx vercel deploy --prod --token "$VERCEL_TOKEN" --yes
 ```
+
+### 3. Multi-Deployment (Pool / Proxy Fleet)
+
+Jika kamu ingin membuat banyak instance proxy sekaligus (misalnya `oc1` s/d `oc60`) yang tersebar di **19 region Vercel global** (IAD, SFO, FRA, SIN, HND, dll.) untuk load balancing & rotasi IP:
+
+Gunakan script bawaan `deploy-multi.sh`:
+
+```bash
+# Berikan izin eksekusi
+chmod +x deploy-multi.sh
+
+# Deploy 10 instance (oc1 s/d oc10)
+./deploy-multi.sh 1 10
+
+# Deploy 60 instance dengan scope tim tertentu
+./deploy-multi.sh 1 60 nama-team-kamu
+```
+
+**Fitur Multi-Deployment Script:**
+- **Auto-Region Distribution:** Setiap project otomatis ditempatkan di region Vercel yang berbeda secara acak untuk menghindari rate limit per region.
+- **Concurrent Queue:** Deploy otomatis berjalan 4 proses paralel di background.
+- **Auto Link & Deploy:** Langsung terhubung ke project Vercel masing-masing dan menghasilkan URL produksi (`https://oc{N}.vercel.app` atau kustom domain kamu).
 
 ## Usage
 
