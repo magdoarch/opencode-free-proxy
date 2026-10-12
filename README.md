@@ -27,13 +27,30 @@ OpenAI-compatible serverless proxy ke OpenCode Free tier. Siap dideploy di Verce
 
 ## Deploy to Vercel
 
+### 1. Autentikasi / Login Akun Vercel
+Pastikan sudah login ke akun Vercel kamu sebelum melakukan deployment:
+
 ```bash
-# 1. Clone repository
+# Login interaktif (via browser / email / GitHub)
+npx vercel login
+
+# Atau jika di server/headless VPS (menggunakan token):
+# Dapatkan token di: https://vercel.com/account/tokens
+export VERCEL_TOKEN="your_vercel_token_here"
+```
+
+### 2. Deploy Project
+
+```bash
+# Clone repository
 git clone https://github.com/magdoarch/opencode-free-proxy.git
 cd opencode-free-proxy
 
-# 2. Deploy via Vercel CLI
+# Deploy ke production (Interaktif)
 npx vercel deploy --prod
+
+# Atau deploy non-interaktif di CI/CD / headless server (menggunakan token):
+npx vercel deploy --prod --token "$VERCEL_TOKEN" --yes
 ```
 
 ## Usage
