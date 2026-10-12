@@ -1,0 +1,15 @@
+[Unit]
+Description=Local OpenCode Free Proxy Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/CODE/opencode-free-proxy
+ExecStart=/root/.hermes/node/bin/node /root/CODE/opencode-free-proxy/server.js
+Restart=always
+RestartSec=3
+Environment=PORT=3211
+
+[Install]
+WantedBy=multi-user.target
