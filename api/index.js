@@ -13,14 +13,13 @@ const OPENCODE_UA = "opencode/1.18.31";
 
 // Free models available on OpenCode tier
 const FREE_MODELS = new Set([
+  "cat-jam-free",
   "exo-free",
-  "fledge-alpha-free",
   "jev-1.13-free",
   "ling-3.0-flash-fin-free",
   "ling-3.1-flash-free",
   "longcat-2.5-preview-free",
   "mimo-v2.6-flash-free",
-  "muse-spark-1.2-contributor-free",
   "muse-spark-1.3-contributor-free",
   "nemotron-3-ultra-free",
   "nemotron-3.5-lightning-free",
@@ -30,7 +29,6 @@ const FREE_MODELS = new Set([
 
 // Models that use the /responses endpoint instead of /chat/completions
 const RESPONSES_MODELS = new Set([
-  "muse-spark-1.2-contributor-free",
   "muse-spark-1.3-contributor-free",
 ]);
 
@@ -226,7 +224,8 @@ async function forwardChat(req, res, body, model, sessionId, requestId, stream) 
   } catch (e) {}
 
   const lines = buffer.split("\n");
-  let jsonData = null;
+  let content = "";
+  let lastParsed = null;
   for (const line of lines) {
     if (line.startsWith("data: ")) {
       const data = line.slice(6).trim();
@@ -234,14 +233,34 @@ async function forwardChat(req, res, body, model, sessionId, requestId, stream) 
       try {
         const parsed = JSON.parse(data);
         if (parsed.choices && parsed.choices.length > 0) {
-          jsonData = parsed;
+          lastParsed = parsed;
+          const delta = parsed.choices[0].delta || {};
+          if (delta.content) {
+            content += delta.content;
+          }
         }
       } catch (e) {}
     }
   }
 
-  if (jsonData) {
-    return res.status(200).json(jsonData);
+  if (lastParsed) {
+    return res.status(200).json({
+      id: lastParsed.id || `chatcmpl-${Date.now()}`,
+      object: "chat.completion",
+      created: lastParsed.created || Math.floor(Date.now() / 1000),
+      model,
+      choices: [
+        {
+          index: 0,
+          message: {
+            role: "assistant",
+            content,
+          },
+          finish_reason: "stop",
+        },
+      ],
+      usage: lastParsed.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+    });
   }
   return res.status(502).json({ error: { message: "Failed to parse SSE response" } });
 }
