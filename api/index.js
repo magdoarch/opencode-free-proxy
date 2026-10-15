@@ -14,6 +14,7 @@ const OPENCODE_UA = "opencode/1.18.31";
 // Free models available on OpenCode tier
 const FREE_MODELS = new Set([
   "cat-jam-free",
+  "deepseek-v4.1-flash-free",
   "exo-free",
   "jev-1.13-free",
   "ling-3.0-flash-fin-free",

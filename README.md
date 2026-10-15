@@ -6,6 +6,11 @@ OpenAI-compatible serverless proxy ke OpenCode Free tier. Siap dideploy di Verce
 
 | Model | Provider | Status | Catatan |
 |---|---|:---:|---|
+| `deepseek-v4.1-flash-free` | DeepSeek | ✅ Active | Ultra fast reasoning & coding |
+| `cat-jam-free` | Cat Jam | ✅ Active | Conversational model |
+| `exo-free` | Exo | ✅ Active | Free tier reasoning |
+| `jev-1.13-free` | Jev | ✅ Active | Conversational |
+| `ling-3.0-flash-fin-free` | Ling | ✅ Active | Financial/code focus |
 | `ling-3.1-flash-free` | Ling | ✅ Active | Chat completion cepat |
 | `longcat-2.5-preview-free` | LongCat | ✅ Active | Long context support |
 | `mimo-v2.6-flash-free` | Xiaomi MiMo | ✅ Active | Flagship lightweight reasoning |
@@ -14,8 +19,6 @@ OpenAI-compatible serverless proxy ke OpenCode Free tier. Siap dideploy di Verce
 | `nemotron-3.5-lightning-free` | NVIDIA | ✅ Active | Ultra fast response |
 | `space-bunny-free` | Space Bunny | ✅ Active | Balanced conversational |
 | `step-5-preview-free` | Step | ✅ Active | Preview reasoning model |
-| `fledge-alpha-free` | Fledge | ✅ Active | Experimental tier |
-| `muse-spark-1.2-contributor-free` | Muse | ✅ Active | Stable response engine |
 
 ## Features
 
