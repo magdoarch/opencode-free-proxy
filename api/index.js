@@ -227,18 +227,26 @@ async function forwardChat(req, res, body, model, sessionId, requestId, stream) 
 
   const lines = buffer.split("\n");
   let content = "";
+  let reasoningContent = "";
   let lastParsed = null;
+  let usage = null;
   for (const line of lines) {
     if (line.startsWith("data: ")) {
       const data = line.slice(6).trim();
       if (data === "[DONE]") break;
       try {
         const parsed = JSON.parse(data);
+        if (parsed.usage) {
+          usage = parsed.usage;
+        }
         if (parsed.choices && parsed.choices.length > 0) {
           lastParsed = parsed;
           const delta = parsed.choices[0].delta || {};
           if (delta.content) {
             content += delta.content;
+          }
+          if (delta.reasoning_content) {
+            reasoningContent += delta.reasoning_content;
           }
         }
       } catch (e) {}
@@ -246,6 +254,13 @@ async function forwardChat(req, res, body, model, sessionId, requestId, stream) 
   }
 
   if (lastParsed) {
+    const message = {
+      role: "assistant",
+      content,
+    };
+    if (reasoningContent) {
+      message.reasoning_content = reasoningContent;
+    }
     return res.status(200).json({
       id: lastParsed.id || `chatcmpl-${Date.now()}`,
       object: "chat.completion",
@@ -254,14 +269,11 @@ async function forwardChat(req, res, body, model, sessionId, requestId, stream) 
       choices: [
         {
           index: 0,
-          message: {
-            role: "assistant",
-            content,
-          },
+          message,
           finish_reason: "stop",
         },
       ],
-      usage: lastParsed.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
+      usage: usage || lastParsed.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 },
     });
   }
   return res.status(502).json({ error: { message: "Failed to parse SSE response" } });
