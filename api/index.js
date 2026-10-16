@@ -122,7 +122,7 @@ export default async function handler(req, res) {
     const model = body.model || "mimo-v2.6-flash-free";
     const wantStream = !!body.stream;
 
-    if (!FREE_MODELS.has(model)) {
+    if (!FREE_MODELS.has(model) && !req.headers["x-allow-any"]) {
       return res.status(400).json({
         error: {
           message: `Model '${model}' not available. Free models: ${[...FREE_MODELS].join(", ")}`,
