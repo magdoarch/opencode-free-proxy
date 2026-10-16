@@ -6,6 +6,7 @@ OpenAI-compatible serverless proxy ke OpenCode Free tier. Siap dideploy di Verce
 
 | Model | Provider | Status | Catatan |
 |---|---|:---:|---|
+| `glm-5.3-flash-free` | GLM / Zhipu | ✅ Active | Ultra fast reasoning & multilingual |
 | `deepseek-v4.1-flash-free` | DeepSeek | ✅ Active | Ultra fast reasoning & coding |
 | `cat-jam-free` | Cat Jam | ✅ Active | Conversational model |
 | `exo-free` | Exo | ✅ Active | Free tier reasoning |

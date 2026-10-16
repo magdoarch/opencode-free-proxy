@@ -16,6 +16,7 @@ const FREE_MODELS = new Set([
   "cat-jam-free",
   "deepseek-v4.1-flash-free",
   "exo-free",
+  "glm-5.3-flash-free",
   "jev-1.13-free",
   "ling-3.0-flash-fin-free",
   "ling-3.1-flash-free",
