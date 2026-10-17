@@ -13,26 +13,18 @@ const OPENCODE_UA = "opencode/1.18.31";
 
 // Free models available on OpenCode tier
 const FREE_MODELS = new Set([
-  "cat-jam-free",
+  "beam-free",
   "deepseek-v4.1-flash-free",
-  "exo-free",
   "glm-5.3-flash-free",
-  "jev-1.13-free",
-  "ling-3.0-flash-fin-free",
-  "ling-3.1-flash-free",
   "longcat-2.5-preview-free",
   "mimo-v2.6-flash-free",
-  "muse-spark-1.3-contributor-free",
-  "nemotron-3-ultra-free",
   "nemotron-3.5-lightning-free",
+  "nemotron-3.5-super-vl-free",
   "space-bunny-free",
-  "step-5-preview-free",
 ]);
 
 // Models that use the /responses endpoint instead of /chat/completions
-const RESPONSES_MODELS = new Set([
-  "muse-spark-1.3-contributor-free",
-]);
+const RESPONSES_MODELS = new Set([]);
 
 // Fingerprint tools required by OpenCode Free tier
 const FINGERPRINT_TOOLS = ["bash", "glob", "grep", "read"];
